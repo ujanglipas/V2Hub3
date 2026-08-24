@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
@@ -22,7 +24,6 @@ jobs:
           php index.php
           git config --global user.email "yebekhe@gmail.com"
           git config --global user.name "yebekhe"
-          git config credential.helper store
           git add -A
-          git commit -m "🚀 Merged Successfully - $(TZ='Asia/Tehran' date '+%Y-%m-%d %H:%M:%S')"
-          git push
+          git commit -m "🚀 Merged Successfully - $(TZ='Asia/Tehran' date '+%Y-%m-%d %H:%M:%S')" || true
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
